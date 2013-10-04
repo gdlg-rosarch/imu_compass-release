@@ -1,8 +1,0 @@
-ros-hydro-imu-compass (0.0.1-0quantal) quantal; urgency=high
-
-  * creating new package for imu_compass
-  * added imu_compass.cpp, used to be called um6_compass when it came from https://github.com/clearpathrobotics/um6/tree/compass_cleanup/src
-
- -- Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>  Mon, 23 Sep 2013 04:00:00 -0000
-
-
