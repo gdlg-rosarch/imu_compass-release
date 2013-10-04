@@ -17,5 +17,5 @@ tracks:
     release_tag: :{version}
     ros_distro: hydro
     vcs_type: git
-    vcs_uri: https://github.com/clearpathrobotics/imu_compass.git
+    vcs_uri: https://github.com/clearpathrobotics/imu_compass
     version: :{auto}
