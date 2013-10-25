@@ -24,7 +24,8 @@ CPP file for IMU Compass Class that combines gyroscope and magnetometer data to 
 
 #include "imu_compass/imu_compass.h"
 
-IMUCompass::IMUCompass(ros::NodeHandle &n): node_(n) {
+IMUCompass::IMUCompass(ros::NodeHandle &n) :
+    node_(n), curr_imu_reading_(new sensor_msgs::Imu()) {
   // Acquire Parameters
   mag_zero_x_ = 0.0;
   mag_zero_y_ = 0.0;
@@ -34,22 +35,25 @@ IMUCompass::IMUCompass(ros::NodeHandle &n): node_(n) {
   node_.getParam("mag_bias/z", mag_zero_z_);
   ROS_INFO("Using magnetometer bias (x,y):%f,%f", mag_zero_x_, mag_zero_y_);
 
-
   sensor_timeout_ = 0.5;
   yaw_meas_variance_ = 10.0; 
   heading_prediction_variance_ = 0.01;
   node_.getParam("compass/sensor_timeout", sensor_timeout_);
-  node_.getParam("compass/yaw_meas_variance",yaw_meas_variance_);
-  node_.getParam("compass/gyro_meas_variance",heading_prediction_variance_);
+  node_.getParam("compass/yaw_meas_variance", yaw_meas_variance_);
+  node_.getParam("compass/gyro_meas_variance", heading_prediction_variance_);
+  ROS_INFO("Using variance %f", yaw_meas_variance_);
 
-  ROS_INFO("Using variance %f",yaw_meas_variance_);
+  mag_declination_ = 0.0;
+  node_.getParam("compass/mag_declination", mag_declination_);
+  ROS_INFO("Using magnetic declination %f (%f degrees)", mag_declination_, mag_declination_ * 180 / M_PI);
 
   // Setup Subscribers
-  imu_sub_ = node_.subscribe("/imu/data", 1000, &IMUCompass::imuCallback, this);
-  mag_sub_ = node_.subscribe("/imu/mag", 1000, &IMUCompass::magCallback, this);
-  imu_pub_ = node_.advertise<sensor_msgs::Imu>("/imu/data_compass", 1);
-  compass_pub_ = node_.advertise<std_msgs::Float32>("/imu/compass_heading", 1);
-  raw_compass_pub_ = node_.advertise<std_msgs::Float32>("/imu/raw_compass_heading", 1);
+  imu_sub_ = node_.subscribe("imu/data", 1000, &IMUCompass::imuCallback, this);
+  mag_sub_ = node_.subscribe("imu/mag", 1000, &IMUCompass::magCallback, this);
+  decl_sub_ = node_.subscribe("imu/declination", 1000, &IMUCompass::declCallback, this);
+  imu_pub_ = node_.advertise<sensor_msgs::Imu>("imu/data_compass", 1);
+  compass_pub_ = node_.advertise<std_msgs::Float32>("imu/compass_heading", 1);
+  raw_compass_pub_ = node_.advertise<std_msgs::Float32>("imu/raw_compass_heading", 1);
 
   first_mag_reading_ = false;
   first_gyro_reading_ = false;
@@ -118,7 +122,11 @@ void IMUCompass::imuCallback(const sensor_msgs::ImuPtr data) {
     gyro_update_complete_ = true;
   }
   curr_imu_reading_ = data;
+}
 
+void IMUCompass::declCallback(const std_msgs::Float32& data) {
+  mag_declination_ = data.data;
+  ROS_INFO("Using magnetic declination %f (%f degrees)", mag_declination_, mag_declination_ * 180 / M_PI);
 }
 
 void IMUCompass::magCallback(const geometry_msgs::Vector3StampedConstPtr& data) {
@@ -204,7 +212,7 @@ void IMUCompass::repackageImuPublish(tf::StampedTransform transform) {
   // Get Current IMU reading and Compass heading
   tf::Quaternion imu_reading;
   tf::quaternionMsgToTF(curr_imu_reading_->orientation, imu_reading);
-  double compass_heading = curr_heading_;
+  double compass_heading = curr_heading_ - mag_declination_;
 
   // Transform curr_imu_reading to base_link
   tf::Transform o_imu_reading;
@@ -227,7 +235,7 @@ void IMUCompass::repackageImuPublish(tf::StampedTransform transform) {
 
   // Publish all data
   std_msgs::Float32 curr_heading_float;
-  curr_heading_float.data = curr_heading_;
+  curr_heading_float.data = compass_heading;
   compass_pub_.publish(curr_heading_float);
   imu_pub_.publish(curr_imu_reading_);
 }
