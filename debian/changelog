@@ -1,0 +1,32 @@
+ros-hydro-imu-compass (0.0.4-0raring) raring; urgency=high
+
+  * successful test with kingfisher June 30 2014
+  * adding the publishing of calibrated magnetometer data for debug purposes
+  * Contributors: Mike Purvis, Prasenjit Mukherjee
+
+ -- Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>  Wed, 02 Jul 2014 04:00:00 -0000
+
+ros-hydro-imu-compass (0.0.3-0raring) raring; urgency=high
+
+  * Populate the curr_heading_float message with the declination-corrected heading value.
+  * Add declination param and topic input to imu_compass node.
+  * Add dependency on scipy for compute script.
+  * Initialize curr_imu_reading_ with an empty message to avoid startup segfault.
+
+ -- Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>  Thu, 24 Oct 2013 04:00:00 -0000
+
+ros-hydro-imu-compass (0.0.2-0raring) raring; urgency=high
+
+  * adding rosparams for critical variables
+  * tuning covariance to rely more on gyro
+
+ -- Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>  Fri, 04 Oct 2013 04:00:00 -0000
+
+ros-hydro-imu-compass (0.0.1-0raring) raring; urgency=high
+
+  * creating new package for imu_compass
+  * added imu_compass.cpp, used to be called um6_compass when it came from https://github.com/clearpathrobotics/um6/tree/compass_cleanup/src
+
+ -- Prasenjit Mukherjee <pmukherj@clearpathrobotics.com>  Mon, 23 Sep 2013 04:00:00 -0000
+
+
