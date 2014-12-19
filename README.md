@@ -1,3 +1,24 @@
+## foo (indigo) - 0.0.5-0
+
+The packages in the `foo` repository were released into the `indigo` distro by running `/usr/bin/bloom-release foo --track indigo --rosdistro indigo --new-track` on `Fri, 19 Dec 2014 15:50:32 -0000`
+
+The `imu_compass` package was released.
+
+Version of package(s) in repository `foo`:
+- upstream repository: https://github.com/clearpathrobotics/imu_compass
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.0.5-0`
+
+Versions of tools used:
+- bloom version: `0.5.16`
+- catkin_pkg version: `0.2.6`
+- rosdep version: `0.10.33`
+- rosdistro version: `0.4.0`
+- vcstools version: `0.1.35`
+
+
 ## imu_compass (hydro) - 0.0.5-0
 
 The packages in the `imu_compass` repository were released into the `hydro` distro by running `/usr/bin/bloom-release --track hydro --ros-distro hydro imu_compass` on `Thu, 10 Jul 2014 11:44:06 -0000`
