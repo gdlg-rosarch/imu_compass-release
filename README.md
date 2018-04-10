@@ -1,3 +1,26 @@
+## imu_compass (kinetic) - 0.0.5-0
+
+The packages in the `imu_compass` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release --rosdistro kinetic --track kinetic imu_compass --new-track` on `Tue, 10 Apr 2018 19:36:53 -0000`
+
+The `imu_compass` package was released.
+
+Version of package(s) in repository `imu_compass`:
+
+- upstream repository: https://github.com/clearpathrobotics/imu_compass
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.0.5-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.4`
+- catkin_pkg version: `0.4.1`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.8`
+- vcstools version: `0.1.40`
+
+
 ## imu_compass (indigo) - 0.0.5-1
 
 The packages in the `imu_compass` repository were released into the `indigo` distro by running `/usr/bin/bloom-release imu_compass --track indigo --rosdistro indigo --new-track` on `Fri, 19 Dec 2014 15:54:31 -0000`
